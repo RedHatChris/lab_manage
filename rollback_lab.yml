@@ -1,0 +1,14 @@
+---
+# Rollback Lab
+- name: Rollback the Lab
+  command:
+    cmd: "qm rollback {{ vmid }} {{ snapshot_name }}"
+  register: vm_snap
+  delegate_to: "{{ vm_host }}"
+
+
+- name: Restart the Lab
+  command:
+    cmd: "qm start {{ vmid }}"
+  register: vm_snap
+  delegate_to: "{{ vm_host }}"

@@ -1,0 +1,9 @@
+---
+rules:
+  colons:
+    max-spaces-before: -1
+    max-spaces-after : -1
+
+  truthy:
+    allowed-values : ['true','false','True','False','yes','no']
+    check-keys     : false

@@ -1,0 +1,27 @@
+---
+ssc__maintainer       : Chris Hammer
+ssc__maintainer_email : chris.hammer@redhat.com
+
+
+ssc__template_header: State Street Lab Environment
+
+
+etc_hostname_file : /etc/hostname
+etc_hostname_ver  : 1.0
+etc_hostname_rev  : 20210104-222550
+
+
+etc_hosts_file : /etc/hosts
+etc_hosts_ver  : 1.0
+etc_hosts_rev  : 20210105-122743
+
+
+ssc__nodes:
+  10.1.1.42: ssc-tower-1
+  10.1.1.47: ssc-dev-1
+  10.1.1.68: ssc-test-1
+  10.1.1.51: ssc-prod-1
+
+
+vm_host       : zg-vm1.thezengarden.net
+snapshot_name : pre-deploy

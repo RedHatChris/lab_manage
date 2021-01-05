@@ -1,0 +1,17 @@
+---
+- name: Set Node Hostname
+  template:
+    src: templates/etc_hostname.j2
+    dest: "{{ etc_hostname_file }}"
+
+
+- name: Refresh Node Hostname
+  command:
+    cmd: "hostname -F {{ etc_hostname_file }}"
+  changed_when: false
+
+
+- name: Deploy {{ etc_hosts_file }}
+  template:
+    src: templates/etc_hosts.j2
+    dest: "{{ etc_hosts_file }}"

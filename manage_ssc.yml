@@ -1,0 +1,37 @@
+---
+- name: Provision SSC Environment
+
+  hosts        : all
+  become       : true
+  gather_facts : true
+
+  vars_files:
+    - vars/ssc_env.yml
+
+
+  tasks:
+    - name: Base Tasks
+      import_tasks: base_tasks.yml
+      tags:
+        - always
+
+
+    - name: Remove Lab Snapshots
+      import_tasks: del_snapshots.yml
+      tags:
+        - delsnap
+        - never
+
+
+    - name: Snapshot SSC Lab
+      import_tasks: snapshot_lab.yml
+      tags:
+        - snap
+        - never
+
+
+    - name: Rollback SSC Lab
+      import_tasks: rollback_lab.yml
+      tags:
+        - rollback
+        - never

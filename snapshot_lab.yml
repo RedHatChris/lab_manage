@@ -1,0 +1,10 @@
+---
+# Snapshot the current lab VMs prior to doing
+# any work on them:
+#
+# delegates to our vm node
+- name: Snapshot the Lab
+  command:
+    cmd: "qm snapshot {{ vmid }} {{ snapshot_name }}"
+  register: vm_snap
+  delegate_to: "{{ vm_host }}"

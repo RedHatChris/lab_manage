@@ -1,0 +1,6 @@
+---
+- name: Remove Lab Snapshots
+  command:
+    cmd: "qm delsnapshot {{ vmid }} {{ snapshot_name }}"
+  register: vm_snap
+  delegate_to: "{{ vm_host }}"
