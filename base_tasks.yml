@@ -15,3 +15,7 @@
   template:
     src: templates/etc_hosts.j2
     dest: "{{ etc_hosts_file }}"
+
+
+- name: Ensure latest packages are present
+  package: name=* state=latest

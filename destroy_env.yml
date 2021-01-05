@@ -1,0 +1,24 @@
+---
+- name: SSC Lab Environment Management
+
+  hosts        : all
+  become       : true
+  gather_facts : false
+
+  vars_files:
+    - vars/ssc_env.yml
+
+
+  tasks:
+    - name: Stop SSC Lab VMs
+      command:
+        cmd: "qm stop {{ vmid }}"
+      register: vm_start
+      delegate_to: "{{ vm_host }}"
+
+
+    - name: Destroy SSC Lab VMs
+      command:
+        cmd: "qm destroy {{ vmid }}"
+      register: vm_destroy
+      delegate_to: "{{ vm_host }}"

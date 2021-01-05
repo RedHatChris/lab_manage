@@ -1,5 +1,5 @@
 ---
-- name: Provision SSC Environment
+- name: SSC Lab Environment Management
 
   hosts        : all
   become       : true

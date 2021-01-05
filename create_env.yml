@@ -1,0 +1,24 @@
+---
+- name: SSC Lab Environment Management
+
+  hosts        : all
+  become       : true
+  gather_facts : false
+
+  vars_files:
+    - vars/ssc_env.yml
+
+
+  tasks:
+    - name: Create SSC Lab VMs
+      command:
+        cmd: "pvesh create /nodes/zg-vm1/qemu/{{ vm_template_id }}/clone --newid {{ vmid }} --name {{ inventory_hostname }}"
+      register: vm_create
+      delegate_to: "{{ vm_host }}"
+
+
+    - name: Start SSC Lab VMs
+      command:
+        cmd: "qm start {{ vmid }}"
+      register: vm_start
+      delegate_to: "{{ vm_host }}"

@@ -17,11 +17,16 @@ etc_hosts_rev  : 20210105-122743
 
 
 ssc__nodes:
-  10.1.1.42: ssc-tower-1
-  10.1.1.47: ssc-dev-1
-  10.1.1.68: ssc-test-1
-  10.1.1.51: ssc-prod-1
+  10.1.1.58: ssc-tower-1
+  10.1.1.62: ssc-dev-1
+  10.1.1.59: ssc-dev-2
+  10.1.1.65: ssc-test-1
+  10.1.1.63: ssc-test-2
+  10.1.1.61: ssc-prod-1
+  10.1.1.37: ssc-prod-2
 
 
-vm_host       : zg-vm1.thezengarden.net
-snapshot_name : pre-deploy
+vm_host        : zg-vm1.thezengarden.net
+snapshot_name  : pre-deploy
+vm_template_id : 20210105
+vm_network     : 10.1.1
