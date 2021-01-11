@@ -5,6 +5,8 @@
 # delegates to our vm node
 - name: Snapshot the Lab
   command:
-    cmd: "qm snapshot {{ vmid }} {{ snapshot_name }}"
+    cmd: "qm snapshot {{ item.value.vmid }} {{ snapshot_name }}"
   register: vm_snap
   delegate_to: "{{ vm_host }}"
+  with_items: "{{ lab_nodes | dict2items }}"
+  when: "'vm_host' in group_names"

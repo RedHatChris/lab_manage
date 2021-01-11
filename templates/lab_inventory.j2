@@ -1,0 +1,59 @@
+################################
+# {{ lab_template_header }} #
+################################
+#
+# Configuration    : {{ lab_inv_file }}
+# Template Version : {{ lab_inv_ver }}-{{ lab_inv_rev }}
+#
+# {{ lab_maintainer }} <{{ lab_maintainer_email }}>
+#################################################
+
+
+########################
+# Environment Overview #
+########################
+{% for node in lab_nodes %}
+# {{ node }} :: {{ lab_nodes[node]['group'] }} :: {{ lab_nodes[node]['ip'] | regex_replace ('.*?(\d+\.\d+\.\d+\.\d+).*?$', '\\1' ) }}
+{% endfor %}
+
+
+all:
+  children:
+
+###################
+### HOST GROUPS ###
+###################
+{% for group in lab_groups %}
+    {{ group }}:
+      hosts:
+{% for node in lab_nodes %}
+{% if lab_nodes[node].group == group %}
+        {{ node }}:
+          vmid         : {{ lab_nodes[node].vmid }}
+          ansible_host : {{ lab_nodes[node]['ip'] | regex_replace ('.*?(\d+\.\d+\.\d+\.\d+).*?$', '\\1' ) }}
+{% if lab_nodes[node].vars is defined %}
+{% for var in lab_nodes[node].vars %}
+          {{ var }}
+{% endfor %}
+{% endif %}
+
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+#################
+### SUBGROUPS ###
+#################
+{% for parent in lab_parents %}
+    {{ parent }}:
+      children:
+{% for group in lab_parents[parent].groups %}
+        {{ group }}:
+{% endfor %}
+
+      vars:
+{% for var in lab_parents[parent].vars %}
+        {{ var }}
+{% endfor %}
+
+{% endfor %}

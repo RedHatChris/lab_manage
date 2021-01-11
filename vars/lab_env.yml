@@ -1,0 +1,135 @@
+---
+lab_maintainer       : Chris Hammer
+lab_maintainer_email : chris.hammer@redhat.com
+
+
+lab_template_header: Lab Environment - SSC
+
+
+etc_hostname_file : /etc/hostname
+etc_hostname_ver  : 1.0
+etc_hostname_rev  : 20210104-222550
+
+
+etc_hosts_file : /etc/hosts
+etc_hosts_ver  : 1.0
+etc_hosts_rev  : 20210109-024925
+
+
+ssh_config_file : /root/.ssh/config
+ssh_config_ver  : 1.0
+ssh_config_rev  : 20210109-013515
+ssh_strict_host_keys: "no"
+
+
+ssh_lab_keys:
+  - lab_ssh_keys/id_rsa
+  - lab_ssh_keys/id_rsa.pub
+  - lab_ssh_keys/authorized_keys
+
+ssh_lab_key_dest: /root/.ssh
+
+
+lab_inv_file : /home/chris/git/RedHat/ansible/inventory/lab_inventory.yml
+lab_inv_ver  : 1.0
+lab_inv_rev  : 20210108-172011
+
+
+vm_host        : zg-vm1.thezengarden.net
+snapshot_name  : pre-deploy
+vm_template_id : 20210105                 # StateStreet-RHEL7
+
+
+lab_vlan    : 15
+lab_bridge  : vmbr0
+lab_network : 10.10.10
+
+
+lab_groups:
+  - ssc__tower
+  - ssc__dev
+  - ssc__test
+  - ssc__prod
+  - ssc__control
+
+lab_parents:
+  ssc__all__envs:
+    groups:
+      - ssc__dev
+      - ssc__test
+      - ssc__prod
+    vars:
+      - "ansible_user : root"
+
+
+  ssc__all__nodes:
+    groups:
+      - ssc__tower
+      - ssc__dev
+      - ssc__test
+      - ssc__prod
+      - ssc__control
+    vars:
+      - "ansible_user : root"
+
+
+lab_nodes:
+  ssc-tower-1:
+    group: ssc__tower
+    vmid : 2000
+    mac  : '00:1B:C5:01:40:00'
+    cores: 8
+    mem  : 8192
+    vars :
+      - "ansible_user: root"
+
+  ssc-dev-1:
+    group: ssc__dev
+    vmid : 2010
+    mac  : '00:1B:C5:01:40:01'
+    vars :
+      - "ansible_user: root"
+
+  ssc-dev-2:
+    group: ssc__dev
+    vmid : 2011
+    mac  : '00:1B:C5:01:40:02'
+    vars :
+      - "ansible_user: root"
+
+  ssc-test-1:
+    group: ssc__test
+    vmid : 2020
+    mac  : '00:1B:C5:01:40:03'
+    vars :
+      - "ansible_user: root"
+
+  ssc-test-2:
+    group: ssc__test
+    vmid : 2021
+    mac  : '00:1B:C5:01:40:04'
+    vars :
+      - "ansible_user: root"
+
+  ssc-prod-1:
+    group: ssc__prod
+    vmid : 2030
+    mac  : '00:1B:C5:01:40:05'
+    vars :
+      - "ansible_user: root"
+
+  ssc-prod-2:
+    group: ssc__prod
+    vmid : 2031
+    mac  : '00:1B:C5:01:40:06'
+    vars :
+      - "ansible_user: root"
+
+  ssc-control-1:
+    group: ssc__control
+    vmid : 2040
+    mac  : '00:1B:C5:01:40:07'
+    cores: 4
+    mem  : 2048
+    vars :
+      - "ansible_user: root"

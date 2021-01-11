@@ -1,0 +1,52 @@
+---
+- name: Lab Environment Infrastructure Management
+
+  hosts        : all
+  become       : true
+  gather_facts : true
+
+  vars_files:
+    - vars/lab_env.yml
+
+
+  tasks:
+    - name: Create Environment
+      import_tasks: plays/create_env.yml
+      tags:
+        - create
+        - never
+
+
+    - name: Destroy Environment
+      import_tasks: plays/destroy_env.yml
+      tags:
+        - destroy
+        - never
+
+
+    - name: Build Lab Inventory
+      import_tasks: plays/build_inv.yml
+      tags:
+        - inventory
+        - never
+
+
+    - name: Remove Lab Snapshots
+      import_tasks: plays/del_snapshots.yml
+      tags:
+        - delsnap
+        - never
+
+
+    - name: Snapshot the Lab
+      import_tasks: plays/snapshot_lab.yml
+      tags:
+        - snap
+        - never
+
+
+    - name: Rollback Lab
+      import_tasks: plays/rollback_lab.yml
+      tags:
+        - rollback
+        - never

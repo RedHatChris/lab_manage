@@ -1,0 +1,20 @@
+---
+- name: Get Lab IPs
+  shell: "qm guest cmd {{ item.value.vmid }} network-get-interfaces | grep {{ lab_network }}."
+  register: vm_getip
+  delegate_to: "{{ vm_host }}"
+  changed_when: false
+  with_items: "{{ lab_nodes | dict2items }}"
+  when: "'vm_host' in group_names"
+
+
+- name: Set Lab IPs
+  set_fact:
+    lab_nodes: "{{ lab_nodes | combine ({ item.item.key: {'ip': item.stdout }}, recursive=True) }}"
+  loop: "{{ vm_getip.results }}"
+  when: "'vm_host' in group_names"
+
+
+- name: Create inventory for Lab Environment
+  local_action: template src=templates/lab_inventory.j2 dest="{{ lab_inv_file }}"
+  when: "'vm_host' in group_names"

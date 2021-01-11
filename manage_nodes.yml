@@ -1,0 +1,48 @@
+---
+- name: Lab Environment Node Management
+
+  hosts        : all
+  become       : true
+  gather_facts : true
+
+  vars_files:
+    - vars/lab_env.yml
+
+
+  tasks:
+    - name: Get Lab IPs
+      shell: "qm guest cmd {{ item.value.vmid }} network-get-interfaces | grep {{ lab_network }}."
+      register: vm_getip
+      delegate_to: "{{ vm_host }}"
+      changed_when: false
+      with_items: "{{ lab_nodes | dict2items }}"
+
+
+    - name: Set Lab IPs
+      set_fact:
+        lab_nodes: "{{ lab_nodes | combine ({ item.item.key: {'ip': item.stdout }}, recursive=True) }}"
+      loop: "{{ vm_getip.results }}"
+
+
+    - name: Base Tasks
+      import_tasks: plays/base_tasks.yml
+      tags:
+        - always
+
+
+    - name: Deploy {{ ssh_config_file }}
+      template:
+        src: templates/ssh_config.j2
+        dest: "{{ ssh_config_file }}"
+        owner: root
+        group: root
+        mode : 0600
+
+
+    - name: Deploy Lab SSH Keys
+      copy:
+        src: "{{ item }}"
+        dest: "{{ ssh_lab_key_dest }}"
+        mode: 0600
+      with_items:
+        - "{{ ssh_lab_keys }}"

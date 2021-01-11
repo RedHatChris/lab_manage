@@ -17,5 +17,5 @@
     dest: "{{ etc_hosts_file }}"
 
 
-- name: Ensure latest packages are present
-  package: name=* state=latest
+#- name: Ensure latest packages are present
+#  package: name=* state=latest

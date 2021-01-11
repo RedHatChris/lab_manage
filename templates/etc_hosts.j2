@@ -1,17 +1,17 @@
 ################################
-# {{ ssc__template_header }} #
+# {{ lab_template_header }} #
 ################################
 #
 # Configuration    : {{ etc_hosts_file }}
 # Template Version : {{ etc_hosts_ver }}-{{ etc_hostname_rev }}
 #
-# {{ ssc__maintainer }} <{{ ssc__maintainer_email }}>
+# {{ lab_maintainer }} <{{ lab_maintainer_email }}>
 #################################################
 
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
 
-{% for node in ssc__nodes %}
-{{ node }}    {{ ssc__nodes[node] }}    {{ ssc__nodes[node] }}.thezengarden.net
+{% for node in lab_nodes %}
+{{ lab_nodes[node]['ip'] | regex_replace ('.*?(\d+\.\d+\.\d+\.\d+).*?$', '\\1' ) }}    {{ node }}    {{ node }}.thezengarden.net
 {% endfor %}

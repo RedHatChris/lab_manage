@@ -1,0 +1,13 @@
+all:
+  children:
+    vm_host:
+      hosts:
+        zg-vm1.thezengarden.net:
+
+
+    local:
+      hosts:
+        localhost:
+          ansible_host       : 127.0.0.1
+          ansible_connection : local
+          ansible_user       : chris

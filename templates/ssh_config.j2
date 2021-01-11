@@ -1,0 +1,12 @@
+################################
+# {{ lab_template_header }} #
+################################
+#
+# Configuration    : {{ ssh_config_file }}
+# Template Version : {{ ssh_config_ver }}-{{ ssh_config_rev }}
+#
+# {{ lab_maintainer }} <{{ lab_maintainer_email }}>
+#################################################
+
+Host *
+    StrictHostKeyChecking {{ ssh_strict_host_keys }}

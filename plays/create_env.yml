@@ -1,24 +1,34 @@
 ---
-- name: SSC Lab Environment Management
-
-  hosts        : all
-  become       : true
-  gather_facts : false
-
-  vars_files:
-    - vars/ssc_env.yml
-
-
-  tasks:
-    - name: Create SSC Lab VMs
-      command:
-        cmd: "pvesh create /nodes/zg-vm1/qemu/{{ vm_template_id }}/clone --newid {{ vmid }} --name {{ inventory_hostname }}"
-      register: vm_create
-      delegate_to: "{{ vm_host }}"
+- name: Create Lab VMs
+  command:
+    cmd: "pvesh create /nodes/zg-vm1/qemu/{{ vm_template_id }}/clone --newid {{ item.value.vmid }} --name {{ item.key }}"
+  register: vm_create
+  delegate_to: "{{ vm_host }}"
+  with_items: "{{ lab_nodes | dict2items }}"
+  when: "'vm_host' in group_names"
 
 
-    - name: Start SSC Lab VMs
-      command:
-        cmd: "qm start {{ vmid }}"
-      register: vm_start
-      delegate_to: "{{ vm_host }}"
+- name: Set Lab VM Params
+  command:
+    cmd: "qm set {{ item.value.vmid }} -cores {{ item.value.cores | default('2') }} -memory {{ item.value.mem | default('1024') }}"
+  delegate_to: "{{ vm_host }}"
+  with_items: "{{ lab_nodes | dict2items }}"
+  when: "'vm_host' in group_names"
+
+
+- name: Set Lab MAC Addresses and VLAN
+  command:
+    cmd: "qm set {{ item.value.vmid }} -net0 'virtio={{ item.value.mac }},bridge={{ lab_bridge }},tag={{ lab_vlan }}'"
+  delegate_to: "{{ vm_host }}"
+  with_items: "{{ lab_nodes | dict2items }}"
+  when: "'vm_host' in group_names"
+
+
+
+- name: Start Lab VMs
+  command:
+    cmd: "qm start {{ item.value.vmid }}"
+  register: vm_start
+  delegate_to: "{{ vm_host }}"
+  with_items: "{{ lab_nodes | dict2items }}"
+  when: "'vm_host' in group_names"
