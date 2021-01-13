@@ -17,5 +17,22 @@
     dest: "{{ etc_hosts_file }}"
 
 
-#- name: Ensure latest packages are present
-#  package: name=* state=latest
+- name: Ensure latest packages are present
+  package: name=* state=latest
+
+
+- name: Install Required RPM Packages
+  package:
+    name  : "{{ item }}"
+    state : present
+  with_items:
+    - nfs-utils
+    - python36
+    - tar
+    - zip
+
+
+- name: Install Required PIP Modules
+  pip:
+    name: ['ansible', 'ansible-tower-cli']
+  when: "'ssc__control' in group_names"
