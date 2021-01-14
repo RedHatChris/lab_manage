@@ -17,8 +17,14 @@
     dest: "{{ etc_hosts_file }}"
 
 
+# Because of the nature of the current lab
+# we really only want to run this once; so
+# lets tag it
 - name: Ensure latest packages are present
   package: name=* state=latest
+  tags:
+    - update_lab
+    - never
 
 
 - name: Install Required RPM Packages

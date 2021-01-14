@@ -26,8 +26,6 @@
 
     - name: Base Tasks
       import_tasks: plays/base_tasks.yml
-      tags:
-        - always
 
 
     - name: Deploy {{ ssh_config_file }}
@@ -46,3 +44,10 @@
         mode: 0600
       with_items:
         - "{{ ssh_lab_keys }}"
+
+
+    - name: Mount Git Repo(s) as Configured
+      import_tasks: plays/mount_nfs.yml
+      tags:
+        - nfs
+        - always

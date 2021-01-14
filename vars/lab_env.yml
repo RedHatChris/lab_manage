@@ -127,10 +127,16 @@ lab_nodes:
       - "ansible_user: root"
 
   ssc-control-1:
-    group: ssc__control
-    vmid : 2040
-    mac  : '00:1B:C5:01:40:07'
-    cores: 4
-    mem  : 2048
-    vars :
+    group      : ssc__control
+    vmid       : 2040
+    mac        : '00:1B:C5:01:40:07'
+    cores      : 4
+    mem        : 2048
+    nfs        :
+      git_src  : true
+      host     : tokyo
+      path     : /ds1/ext/git/RedHat
+      mnt_pnt  : /root/git
+      mnt_opts : 'nfsvers=3,hard,rw,rsize=32768,wsize=32768,noatime,mountproto=udp'
+    vars       :
       - "ansible_user: root"

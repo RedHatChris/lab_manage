@@ -1,0 +1,12 @@
+---
+- name: Mount Git Source
+  mount:
+    src    : "{{ item.value.nfs.host }}:{{ item.value.nfs.path }}"
+    path   : "{{ item.value.nfs.mnt_pnt }}"
+    opts   : "{{ item.value.nfs.mnt_opts }}"
+    state  : mounted
+    fstype : nfs
+  loop: "{{ lab_nodes | dict2items }}"
+  when:
+  - "'ssc__control' in group_names"
+  - item.value.nfs is defined and item.value.nfs.git_src | bool

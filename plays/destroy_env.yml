@@ -1,4 +1,7 @@
 ---
+
+# creates : "/etc/pve/nodes/{{ vm_host | regex_replace ('(.*?).thezengarden.net$', '\\1' ) }}/qemu-server/{{ item.value.vmid }}.conf"
+
 - name: Stop Lab VMs
   command:
     cmd: "qm stop {{ item.value.vmid }}"
