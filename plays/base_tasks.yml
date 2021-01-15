@@ -34,6 +34,7 @@
   with_items:
     - nfs-utils
     - python36
+    - python3-pexpect
     - tar
     - zip
 
