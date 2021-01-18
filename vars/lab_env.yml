@@ -38,7 +38,7 @@ lab_inv_rev  : 20210108-172011
 
 vm_host        : zg-vm1.thezengarden.net
 snapshot_name  : pre-deploy
-vm_template_id : 20210112                   # RHEL-8
+vm_template_id : 20210118                   # RHEL-8
 
 
 lab_vlan    : 15
@@ -76,54 +76,93 @@ lab_parents:
 
 lab_nodes:
   ssc-tower-1:
-    group: ssc__tower
-    vmid : 2000
-    mac  : '00:1B:C5:01:40:00'
-    cores: 8
-    mem  : 8192
-    vars :
+    group : ssc__tower
+    vmid  : 2000
+    mac   : '00:1B:C5:01:40:00'
+    cores : 8
+    mem   : 8192
+    vars  :
       - "ansible_user: root"
 
   ssc-dev-1:
-    group: ssc__dev
-    vmid : 2010
-    mac  : '00:1B:C5:01:40:01'
-    vars :
+    group : ssc__dev
+    vmid  : 2010
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:01'
+    vars  :
       - "ansible_user: root"
 
   ssc-dev-2:
-    group: ssc__dev
-    vmid : 2011
-    mac  : '00:1B:C5:01:40:02'
-    vars :
+    group : ssc__dev
+    vmid  : 2011
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:02'
+    vars  :
+      - "ansible_user: root"
+
+  ssc-dev-3:
+    group : ssc__dev
+    vmid  : 2012
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:08'
+    vars  :
       - "ansible_user: root"
 
   ssc-test-1:
-    group: ssc__test
-    vmid : 2020
-    mac  : '00:1B:C5:01:40:03'
-    vars :
+    group : ssc__test
+    vmid  : 2020
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:03'
+    vars  :
       - "ansible_user: root"
 
   ssc-test-2:
-    group: ssc__test
-    vmid : 2021
-    mac  : '00:1B:C5:01:40:04'
-    vars :
+    group : ssc__test
+    vmid  : 2021
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:04'
+    vars  :
+      - "ansible_user: root"
+
+  ssc-test-3:
+    group : ssc__test
+    vmid  : 2022
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:09'
+    vars  :
       - "ansible_user: root"
 
   ssc-prod-1:
-    group: ssc__prod
-    vmid : 2030
-    mac  : '00:1B:C5:01:40:05'
-    vars :
+    group : ssc__prod
+    vmid  : 2030
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:05'
+    vars  :
       - "ansible_user: root"
 
   ssc-prod-2:
-    group: ssc__prod
-    vmid : 2031
-    mac  : '00:1B:C5:01:40:06'
-    vars :
+    group : ssc__prod
+    vmid  : 2031
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:06'
+    vars  :
+      - "ansible_user: root"
+
+  ssc-prod-3:
+    group : ssc__prod
+    vmid  : 2032
+    cores : 1
+    mem   : 512
+    mac   : '00:1B:C5:01:40:10'
+    vars  :
       - "ansible_user: root"
 
   ssc-control-1:

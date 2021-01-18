@@ -3,12 +3,18 @@
   template:
     src: templates/etc_hostname.j2
     dest: "{{ etc_hostname_file }}"
+  notify:
+    - Restart Syslog
+  tags:
+    - always
 
 
 - name: Refresh Node Hostname
   command:
     cmd: "hostname -F {{ etc_hostname_file }}"
   changed_when: false
+  tags:
+    - always
 
 
 - name: Deploy {{ etc_hosts_file }}
@@ -17,9 +23,35 @@
     dest: "{{ etc_hosts_file }}"
 
 
+# Registration really only needs to be run once unless we
+# need to refresh; tagging will help us do just that:
+- name: Red Hat Subscription Registration
+  redhat_subscription:
+    state          : present
+    username       : "{{ rh_sub_user }}"
+    password       : "{{ rh_sub_pass }}"
+    auto_attach    : true
+  when:
+    - rh_sub_user is defined
+    - rh_sub_pass is defined
+  tags:
+    - register
+    - never
+
+
+# We want to clean up when tearing down the lab, so
+# we remove any active registrations via this task:
+- name: Remove Red Hat Subscription
+  redhat_subscription:
+    state: absent
+  tags:
+    - unregister
+    - never
+
+
 # Because of the nature of the current lab
 # we really only want to run this once; so
-# lets tag it
+# lets tag it:
 - name: Ensure latest packages are present
   package: name=* state=latest
   tags:

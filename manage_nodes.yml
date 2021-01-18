@@ -7,6 +7,7 @@
 
   vars_files:
     - vars/lab_env.yml
+    - vault/lm.yml
 
 
   tasks:
@@ -48,6 +49,10 @@
 
     - name: Mount Git Repo(s) as Configured
       import_tasks: plays/mount_nfs.yml
-      tags:
-        - nfs
-        - always
+
+
+  handlers:
+  - name: Restart Syslog
+    service:
+      name  : syslog
+      state : restarted
