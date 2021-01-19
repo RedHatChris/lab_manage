@@ -80,7 +80,7 @@ lab_nodes:
     vmid  : 2000
     mac   : '00:1B:C5:01:40:00'
     cores : 8
-    mem   : 8192
+    mem   : 4096
     vars  :
       - "ansible_user: root"
 
