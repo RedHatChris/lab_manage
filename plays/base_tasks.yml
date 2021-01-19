@@ -55,7 +55,7 @@
 - name: Ensure latest packages are present
   package: name=* state=latest
   tags:
-    - update_lab
+    - update_pkgs
     - never
 
 
