@@ -12,7 +12,7 @@
   shell:
     cmd: "qm list | grep {{ item.key | quote }} | awk '{print $3}'"
   register: running_vm
-  changed_when : false
+  changed_when : no
   with_items   : "{{ lab_nodes | dict2items }}"
   when         : "'vm_host' in group_names"
 
@@ -49,3 +49,6 @@
   when:
     - "'vm_host' in group_names"
     - "item.value.state != 'running'"
+
+
+...

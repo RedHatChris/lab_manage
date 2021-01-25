@@ -4,7 +4,7 @@
     src: templates/etc_hostname.j2
     dest: "{{ etc_hostname_file }}"
   notify:
-    - Restart Syslog
+    - "restart_syslog_{{ ansible_distribution_major_version }}"
   tags:
     - always
 
@@ -30,7 +30,8 @@
     state          : present
     username       : "{{ rh_sub_user }}"
     password       : "{{ rh_sub_pass }}"
-    auto_attach    : true
+    auto_attach    : yes
+    force_register : yes
   when:
     - rh_sub_user is defined
     - rh_sub_pass is defined
@@ -59,19 +60,30 @@
     - never
 
 
-- name: Install Required RPM Packages
+- name: Install Required RPM Packages for RHEL7
   package:
     name  : "{{ item }}"
     state : present
   with_items:
-    - nfs-utils
-    - python36
-    - python3-pexpect
-    - tar
-    - zip
+    - "{{ lab_packages_rhel7 }}"
+  when: ansible_distribution_major_version == "7"
+
+
+- name: Install Required RPM Packages for RHEL8
+  package:
+    name  : "{{ item }}"
+    state : present
+  with_items:
+    - "{{ lab_packages_rhel8 }}"
+  when: ansible_distribution_major_version == "8"
 
 
 - name: Install Required PIP Modules
   pip:
     name: ['ansible', 'ansible-tower-cli']
-  when: "'ssc__control' in group_names"
+  when:
+    - "'ssc__control' in group_names"
+    - ansible_distribution_major_version == "8"
+
+
+...

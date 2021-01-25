@@ -46,6 +46,22 @@ lab_bridge  : vmbr0
 lab_network : 10.10.10
 
 
+lab_packages_rhel7:
+  - nfs-utils
+  - python36
+  - pexpect
+  - tar
+  - zip
+
+
+lab_packages_rhel8:
+  - nfs-utils
+  - python36
+  - python3-pexpect
+  - tar
+  - zip
+
+
 lab_groups:
   - ssc__tower
   - ssc__dev

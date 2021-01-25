@@ -2,8 +2,8 @@
 - name: Lab Environment Node Management
 
   hosts        : all
-  become       : true
-  gather_facts : true
+  become       : yes
+  gather_facts : yes
 
   vars_files:
     - vars/lab_env.yml
@@ -12,11 +12,11 @@
 
   tasks:
     - name: Get Lab IPs
-      shell: "qm guest cmd {{ item.value.vmid }} network-get-interfaces | grep {{ lab_network }}."
-      register: vm_getip
-      delegate_to: "{{ vm_host }}"
-      changed_when: false
-      with_items: "{{ lab_nodes | dict2items }}"
+      shell        : "qm guest cmd {{ item.value.vmid }} network-get-interfaces | grep {{ lab_network }}."
+      register     : vm_getip
+      delegate_to  : "{{ vm_host }}"
+      changed_when : no
+      with_items   : "{{ lab_nodes | dict2items }}"
 
 
     - name: Set Lab IPs
@@ -31,18 +31,18 @@
 
     - name: Deploy {{ ssh_config_file }}
       template:
-        src: templates/ssh_config.j2
-        dest: "{{ ssh_config_file }}"
-        owner: root
-        group: root
-        mode : 0600
+        src   : templates/ssh_config.j2
+        dest  : "{{ ssh_config_file }}"
+        owner : root
+        group : root
+        mode  : 0600
 
 
     - name: Deploy Lab SSH Keys
       copy:
-        src: "{{ item }}"
-        dest: "{{ ssh_lab_key_dest }}"
-        mode: 0600
+        src  : "{{ item }}"
+        dest : "{{ ssh_lab_key_dest }}"
+        mode : 0600
       with_items:
         - "{{ ssh_lab_keys }}"
 
@@ -52,7 +52,13 @@
 
 
   handlers:
-  - name: Restart Syslog
+  - name: restart_syslog_7
+    service:
+      name  : rsyslog
+      state : restarted
+
+
+  - name: restart_syslog_8
     service:
       name  : syslog
       state : restarted
