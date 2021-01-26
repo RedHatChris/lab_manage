@@ -29,36 +29,35 @@
       import_tasks: plays/base_tasks.yml
 
 
-    - name: Deploy {{ ssh_config_file }}
-      template:
-        src   : templates/ssh_config.j2
-        dest  : "{{ ssh_config_file }}"
-        owner : root
-        group : root
-        mode  : 0600
+    - name: SSH Setup
+      import_tasks: plays/ssh_setup.yml
 
 
-    - name: Deploy Lab SSH Keys
-      copy:
-        src  : "{{ item }}"
-        dest : "{{ ssh_lab_key_dest }}"
-        mode : 0600
-      with_items:
-        - "{{ ssh_lab_keys }}"
+    - name: Base Packages for RHEL Nodes
+      import_tasks: plays/base_pkgs.yml
+      when:
+        - ansible_distribution == "RedHat"
 
 
     - name: Mount Git Repo(s) as Configured
       import_tasks: plays/mount_nfs.yml
 
 
+    - name: Enable Ansible for RHEL
+      import_tasks: plays/ansible_setup.yml
+      when:
+        - "'ssc__control' in group_names"
+        - ansible_distribution == "RedHat"
+
+
   handlers:
-  - name: restart_syslog_7
-    service:
-      name  : rsyslog
-      state : restarted
+    - name: restart_syslog_7
+      service:
+        name  : rsyslog
+        state : restarted
 
 
-  - name: restart_syslog_8
-    service:
-      name  : syslog
-      state : restarted
+    - name: restart_syslog_8
+      service:
+        name  : syslog
+        state : restarted

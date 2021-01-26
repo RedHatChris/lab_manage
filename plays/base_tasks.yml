@@ -5,6 +5,8 @@
     dest: "{{ etc_hostname_file }}"
   notify:
     - "restart_syslog_{{ ansible_distribution_major_version }}"
+  when:
+    - ansible_distribution == "RedHat"
   tags:
     - always
 
@@ -35,6 +37,7 @@
   when:
     - rh_sub_user is defined
     - rh_sub_pass is defined
+    - ansible_distribution == "RedHat"
   tags:
     - register
     - never
@@ -45,45 +48,11 @@
 - name: Remove Red Hat Subscription
   redhat_subscription:
     state: absent
+  when:
+    - ansible_distribution == "RedHat"
   tags:
     - unregister
     - never
-
-
-# Because of the nature of the current lab
-# we really only want to run this once; so
-# lets tag it:
-- name: Ensure latest packages are present
-  package: name=* state=latest
-  tags:
-    - update_pkgs
-    - never
-
-
-- name: Install Required RPM Packages for RHEL7
-  package:
-    name  : "{{ item }}"
-    state : present
-  with_items:
-    - "{{ lab_packages_rhel7 }}"
-  when: ansible_distribution_major_version == "7"
-
-
-- name: Install Required RPM Packages for RHEL8
-  package:
-    name  : "{{ item }}"
-    state : present
-  with_items:
-    - "{{ lab_packages_rhel8 }}"
-  when: ansible_distribution_major_version == "8"
-
-
-- name: Install Required PIP Modules
-  pip:
-    name: ['ansible', 'ansible-tower-cli']
-  when:
-    - "'ssc__control' in group_names"
-    - ansible_distribution_major_version == "8"
 
 
 ...

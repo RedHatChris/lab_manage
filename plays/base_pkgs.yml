@@ -1,0 +1,31 @@
+---
+# Because of the nature of the current lab
+# we really only want to run this once; so
+# lets tag it:
+- name: Ensure latest packages are present
+  package: name=* state=latest
+  tags:
+    - update_pkgs
+    - never
+
+
+- name: Install Base Packages for RHEL 7
+  package:
+    name  : "{{ item }}"
+    state : present
+  with_items:
+    - "{{ lab_packages_rhel7 }}"
+  when:
+    - ansible_distribution_major_version == "7"
+
+
+- name: Install Base Packages for RHEL 8
+  package:
+    name  : "{{ item }}"
+    state : present
+  with_items:
+    - "{{ lab_packages_rhel8 }}"
+  when:
+    - ansible_distribution_major_version == "8"
+
+...

@@ -4,7 +4,7 @@ lab_maintainer_email : chris.hammer@redhat.com
 lab_tld              : thezengarden.net
 
 
-lab_template_header: Lab Environment - SSC
+lab_template_header: Lab Environment
 
 
 etc_hostname_file : /etc/hostname
@@ -38,6 +38,7 @@ lab_inv_rev  : 20210108-172011
 
 vm_host        : zg-vm1.thezengarden.net
 snapshot_name  : pre-deploy
+# vm_template_id : 20210104                   # RHEL-7
 vm_template_id : 20210119                   # RHEL-8-RAID0
 
 
@@ -48,8 +49,6 @@ lab_network : 10.10.10
 
 lab_packages_rhel7:
   - nfs-utils
-  - python36
-  - pexpect
   - tar
   - zip
 
@@ -57,7 +56,6 @@ lab_packages_rhel7:
 lab_packages_rhel8:
   - nfs-utils
   - python36
-  - python3-pexpect
   - tar
   - zip
 
