@@ -3,18 +3,18 @@
 - name: Rollback the Lab
   command:
     cmd: "qm rollback {{ item.value.vmid }} {{ snapshot_name }}"
-  register: vm_snap
-  delegate_to: "{{ vm_host }}"
-  with_items: "{{ lab_nodes | dict2items }}"
+  register    : vm_snap
+  delegate_to : "{{ vm_host }}"
+  with_items  : "{{ lab_nodes | dict2items }}"
   when: "'vm_host' in group_names"
 
 
 - name: Restart the Lab
   command:
     cmd: "qm start {{ item.value.vmid }}"
-  register: vm_snap
-  delegate_to: "{{ vm_host }}"
-  with_items: "{{ lab_nodes | dict2items }}"
+  register    : vm_snap
+  delegate_to : "{{ vm_host }}"
+  with_items  : "{{ lab_nodes | dict2items }}"
   when: "'vm_host' in group_names"
 
 

@@ -8,8 +8,8 @@
     fstype : nfs
   loop: "{{ lab_nodes | dict2items }}"
   when:
-  - "'ssc__control' in group_names"
-  - item.value.nfs is defined and item.value.nfs.git_src | bool
+    - "'ssc__control' in group_names"
+    - item.value.nfs is defined and item.value.nfs.git_src | bool
 
 
 ...

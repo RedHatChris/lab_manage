@@ -1,20 +1,18 @@
 ---
-
 # creates : "/etc/pve/nodes/{{ vm_host | regex_replace ('(.*?).thezengarden.net$', '\\1' ) }}/qemu-server/{{ item.value.vmid }}.conf"
-
 - name: Stop Lab VMs
   command:
     cmd: "qm stop {{ item.value.vmid }}"
-  delegate_to: "{{ vm_host }}"
-  with_items: "{{ lab_nodes | dict2items }}"
+  delegate_to : "{{ vm_host }}"
+  with_items  : "{{ lab_nodes | dict2items }}"
   when: "'vm_host' in group_names"
 
 
 - name: Destroy Lab VMs
   command:
     cmd: "qm destroy {{ item.value.vmid }}"
-  delegate_to: "{{ vm_host }}"
-  with_items: "{{ lab_nodes | dict2items }}"
+  delegate_to : "{{ vm_host }}"
+  with_items  : "{{ lab_nodes | dict2items }}"
   when: "'vm_host' in group_names"
 
 

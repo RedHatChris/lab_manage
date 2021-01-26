@@ -61,3 +61,6 @@
       service:
         name  : syslog
         state : restarted
+
+
+...

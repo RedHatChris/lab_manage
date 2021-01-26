@@ -2,8 +2,8 @@
 - name: Lab Environment Infrastructure Management
 
   hosts        : all
-  become       : true
-  gather_facts : true
+  become       : yes
+  gather_facts : yes
 
   vars_files:
     - vars/lab_env.yml
@@ -50,3 +50,6 @@
       tags:
         - rollback
         - never
+
+
+...

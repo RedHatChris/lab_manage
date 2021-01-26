@@ -1,8 +1,8 @@
 ---
 - name: Set Node Hostname
   template:
-    src: templates/etc_hostname.j2
-    dest: "{{ etc_hostname_file }}"
+    src  : templates/etc_hostname.j2
+    dest : "{{ etc_hostname_file }}"
   notify:
     - "restart_syslog_{{ ansible_distribution_major_version }}"
   when:

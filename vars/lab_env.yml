@@ -193,3 +193,6 @@ lab_nodes:
       mnt_opts : 'nfsvers=3,hard,rw,rsize=32768,wsize=32768,noatime,mountproto=udp'
     vars       :
       - "ansible_user: root"
+
+
+...
