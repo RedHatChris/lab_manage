@@ -35,7 +35,7 @@
 
 - name: Set VM MAC Address and VLAN
   command:
-    cmd: "qm set {{ item.value.vmid }} -net0 'virtio={{ item.value.mac }},bridge={{ lab_bridge }},tag={{ lab_vlan }}'"
+    cmd: "qm set {{ item.value.vmid }} -net0 'virtio={{ item.value.mac }},bridge={{ lab_bridge }},tag={{ lab_vlan | default('1') }}'"
   with_items: "{{ lab_nodes | dict2items }}"
   when:
     - "'vm_host' in group_names"
