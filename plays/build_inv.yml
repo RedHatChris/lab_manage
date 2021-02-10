@@ -15,8 +15,13 @@
   when: "'vm_host' in group_names"
 
 
+- name: Create inventory destination
+  local_action: file path="{{ lab_inv_dest }}" state=directory
+  when: "'vm_host' in group_names"
+
+
 - name: Create inventory for Lab Environment
-  local_action: template src=templates/lab_inventory.j2 dest="{{ lab_inv_file }}"
+  local_action: template src="{{ lab_inv_tmpl }}" dest="{{ lab_inv_dest }}/{{ lab_inv_file }}"
   when: "'vm_host' in group_names"
 
 
