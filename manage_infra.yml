@@ -1,7 +1,7 @@
 ---
 - name: Lab Environment Infrastructure Management
 
-  hosts        : all
+  hosts        : vm_host
   become       : yes
   gather_facts : yes
 

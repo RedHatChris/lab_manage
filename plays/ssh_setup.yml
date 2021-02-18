@@ -13,8 +13,8 @@
     src  : "{{ item }}"
     dest : "{{ ssh_lab_key_dest }}"
     mode : 0600
-  with_items:
-    - "{{ ssh_lab_keys }}"
+  with_fileglob:
+    - "{{ ssh_lab_keys }}/*"
 
 
 ...

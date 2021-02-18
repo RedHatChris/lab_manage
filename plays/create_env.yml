@@ -5,7 +5,6 @@
     creates : "/etc/pve/nodes/{{ vm_host | regex_replace ('(.*?).thezengarden.net$', '\\1' ) }}/qemu-server/{{ item.value.vmid }}.conf"
   register: vm_create
   with_items: "{{ lab_nodes | dict2items }}"
-  when: "'vm_host' in group_names"
 
 
 - name: Verify VM State
@@ -14,14 +13,12 @@
   register: running_vm
   changed_when : no
   with_items   : "{{ lab_nodes | dict2items }}"
-  when         : "'vm_host' in group_names"
 
 
 - name: Set VM State
   set_fact:
     lab_nodes: "{{ lab_nodes | combine ({ item.item.key: {'state': item.stdout }}, recursive=True) }}"
   loop: "{{ running_vm.results }}"
-  when: "'vm_host' in group_names"
 
 
 - name: Set VM Parameters
@@ -29,8 +26,17 @@
     cmd: "qm set {{ item.value.vmid }} -cores {{ item.value.cores | default('2') }} -memory {{ item.value.mem | default('1024') }}"
   with_items: "{{ lab_nodes | dict2items }}"
   when:
-    - "'vm_host' in group_names"
     - "item.value.state != 'running'"
+
+
+# We're going to use this later; If no MAC address
+# then we'll generate a random one using openssl (ie: chef)
+#- name: Get current VM MAC Address
+#  command:
+#    cmd: "qm config {{ item.value.vmid }} | grep bridge | sed -r 's/.*?virtio=(.*?),b.*?$/\\1/'"
+#  register: vm_mac_addr
+#  when:
+#    - "item.value.state != 'running'"
 
 
 - name: Set VM MAC Address and VLAN
@@ -38,7 +44,6 @@
     cmd: "qm set {{ item.value.vmid }} -net0 'virtio={{ item.value.mac }},bridge={{ lab_bridge }},tag={{ lab_vlan | default('1') }}'"
   with_items: "{{ lab_nodes | dict2items }}"
   when:
-    - "'vm_host' in group_names"
     - "item.value.state != 'running'"
 
 
@@ -47,7 +52,6 @@
     cmd: "qm start {{ item.value.vmid }}"
   with_items: "{{ lab_nodes | dict2items }}"
   when:
-    - "'vm_host' in group_names"
     - "item.value.state != 'running'"
 
 
