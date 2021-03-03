@@ -36,9 +36,8 @@ lab_inv_rev  : 20210210-165926
 
 vm_host        : zg-vm1.thezengarden.net
 snapshot_name  : pre-deploy
-# vm_template_id : 20210127                   # RHEL-7-RAID0
-# vm_template_id : 20210119                   # RHEL-8-RAID0
-vm_template_id : 20210118                     # RHEL-8 / stor1
+#vm_template_id : 20210104                     # RHEL-7 / ssd
+vm_template_id : 20210118                     # RHEL-8 / ssd
 
 
 lab_vlan    : 15
@@ -67,6 +66,7 @@ lab_groups:
   - ssc__test
   - ssc__prod
   - ssc__control
+
 
 lab_parents:
   ssc__all__envs:
@@ -113,7 +113,7 @@ lab_nodes:
   ssc-dev-1:
     group : ssc__dev
     vmid  : 2010
-    cores : 1
+    cores : 2
     mem   : 512
     mac   : '00:1B:C5:01:40:01'
     vars  :
@@ -122,7 +122,7 @@ lab_nodes:
 #  ssc-dev-2:
 #    group : ssc__dev
 #    vmid  : 2011
-#    cores : 1
+#    cores : 2
 #    mem   : 512
 #    mac   : '00:1B:C5:01:40:02'
 #    vars  :
@@ -131,7 +131,7 @@ lab_nodes:
 #  ssc-dev-3:
 #    group : ssc__dev
 #    vmid  : 2012
-#    cores : 1
+#    cores : 2
 #    mem   : 512
 #    mac   : '00:1B:C5:01:40:08'
 #    vars  :
@@ -140,7 +140,7 @@ lab_nodes:
   ssc-test-1:
     group : ssc__test
     vmid  : 2020
-    cores : 1
+    cores : 2
     mem   : 512
     mac   : '00:1B:C5:01:40:03'
     vars  :
@@ -149,7 +149,7 @@ lab_nodes:
 #  ssc-test-2:
 #    group : ssc__test
 #    vmid  : 2021
-#    cores : 1
+#    cores : 2
 #    mem   : 512
 #    mac   : '00:1B:C5:01:40:04'
 #    vars  :
@@ -158,7 +158,7 @@ lab_nodes:
 #  ssc-test-3:
 #    group : ssc__test
 #    vmid  : 2022
-#    cores : 1
+#    cores : 2
 #    mem   : 512
 #    mac   : '00:1B:C5:01:40:09'
 #    vars  :
@@ -167,7 +167,7 @@ lab_nodes:
   ssc-prod-1:
     group : ssc__prod
     vmid  : 2030
-    cores : 1
+    cores : 2
     mem   : 512
     mac   : '00:1B:C5:01:40:05'
     vars  :
@@ -176,7 +176,7 @@ lab_nodes:
 #  ssc-prod-2:
 #    group : ssc__prod
 #    vmid  : 2031
-#    cores : 1
+#    cores : 2
 #    mem   : 512
 #    mac   : '00:1B:C5:01:40:06'
 #    vars  :
@@ -185,7 +185,7 @@ lab_nodes:
 #  ssc-prod-3:
 #    group : ssc__prod
 #    vmid  : 2032
-#    cores : 1
+#    cores : 2
 #    mem   : 512
 #    mac   : '00:1B:C5:01:40:10'
 #    vars  :
