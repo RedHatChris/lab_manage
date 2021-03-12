@@ -46,7 +46,7 @@
     - name: Enable Ansible for RHEL
       import_tasks: plays/ansible_setup.yml
       when:
-        - "'ssc__control' in group_names"
+        - "'lab__control' in group_names"
         - ansible_distribution == "RedHat"
 
 

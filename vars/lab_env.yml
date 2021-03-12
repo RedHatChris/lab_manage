@@ -17,18 +17,18 @@ etc_hosts_ver  : 1.0
 etc_hosts_rev  : 20210109-024925
 
 
-ssh_config_file     : /root/.ssh/config
-ssh_config_ver      : 1.0
-ssh_config_rev      : 20210109-013515
-ssh_strict_host_keys: "no"
+ssh_config_file      : /root/.ssh/config
+ssh_config_ver       : 1.0
+ssh_config_rev       : 20210109-013515
+ssh_strict_host_keys : "no"
 
 
 ssh_lab_keys     : "{{ playbook_dir }}/lab_ssh_keys"
 ssh_lab_key_dest : /root/.ssh
 
 
-lab_inv_dest : /home/chris/git/RedHat/ansible/inventory
-lab_inv_file : "lab_inventory.yml"
+lab_inv_dest : /home/chris/git/RedHat/ansible/plays/tower_rbac/inventory
+lab_inv_file : inventory.yml
 lab_inv_tmpl : templates/lab_inventory.j2
 lab_inv_ver  : 1.1
 lab_inv_rev  : 20210210-165926
@@ -61,37 +61,37 @@ lab_packages_rhel8:
 
 
 lab_groups:
-  - ssc__tower
-  - ssc__dev
-  - ssc__test
-  - ssc__prod
-  - ssc__control
+  - lab__tower
+  - lab__dev
+  - lab__test
+  - lab__prod
+  - lab__control
 
 
 lab_parents:
-  ssc__all__envs:
+  lab__all__envs:
     groups:
-      - ssc__dev
-      - ssc__test
-      - ssc__prod
+      - lab__dev
+      - lab__test
+      - lab__prod
     vars:
       - "ansible_user : root"
 
 
-  ssc__all__nodes:
+  lab__all__nodes:
     groups:
-      - ssc__tower
-      - ssc__dev
-      - ssc__test
-      - ssc__prod
-      - ssc__control
+      - lab__tower
+      - lab__dev
+      - lab__test
+      - lab__prod
+      - lab__control
     vars:
       - "ansible_user : root"
 
 
 lab_nodes:
-  ssc-tower-1:
-    group : ssc__tower
+  lab-tower-1:
+    group : lab__tower
     vmid  : 2000
     mac   : '00:1B:C5:01:40:00'
     cores : 8
@@ -100,8 +100,8 @@ lab_nodes:
       - "ansible_user : root"
       - "cluster_role : primary"
 
-#  ssc-tower-2:
-#    group : ssc__tower
+#  lab-tower-2:
+#    group : lab__tower
 #    vmid  : 2001
 #    mac   : '00:1B:C5:01:40:11'
 #    cores : 8
@@ -110,8 +110,8 @@ lab_nodes:
 #      - "ansible_user : root"
 #      - "cluster_role : secondary"
 
-  ssc-dev-1:
-    group : ssc__dev
+  lab-dev-1:
+    group : lab__dev
     vmid  : 2010
     cores : 2
     mem   : 512
@@ -119,8 +119,8 @@ lab_nodes:
     vars  :
       - "ansible_user : root"
 
-#  ssc-dev-2:
-#    group : ssc__dev
+#  lab-dev-2:
+#    group : lab__dev
 #    vmid  : 2011
 #    cores : 2
 #    mem   : 512
@@ -128,8 +128,8 @@ lab_nodes:
 #    vars  :
 #      - "ansible_user : root"
 #
-#  ssc-dev-3:
-#    group : ssc__dev
+#  lab-dev-3:
+#    group : lab__dev
 #    vmid  : 2012
 #    cores : 2
 #    mem   : 512
@@ -137,8 +137,8 @@ lab_nodes:
 #    vars  :
 #      - "ansible_user : root"
 
-  ssc-test-1:
-    group : ssc__test
+  lab-test-1:
+    group : lab__test
     vmid  : 2020
     cores : 2
     mem   : 512
@@ -146,8 +146,8 @@ lab_nodes:
     vars  :
       - "ansible_user : root"
 
-#  ssc-test-2:
-#    group : ssc__test
+#  lab-test-2:
+#    group : lab__test
 #    vmid  : 2021
 #    cores : 2
 #    mem   : 512
@@ -155,8 +155,8 @@ lab_nodes:
 #    vars  :
 #      - "ansible_user : root"
 #
-#  ssc-test-3:
-#    group : ssc__test
+#  lab-test-3:
+#    group : lab__test
 #    vmid  : 2022
 #    cores : 2
 #    mem   : 512
@@ -164,8 +164,8 @@ lab_nodes:
 #    vars  :
 #      - "ansible_user : root"
 
-  ssc-prod-1:
-    group : ssc__prod
+  lab-prod-1:
+    group : lab__prod
     vmid  : 2030
     cores : 2
     mem   : 512
@@ -173,8 +173,8 @@ lab_nodes:
     vars  :
       - "ansible_user : root"
 
-#  ssc-prod-2:
-#    group : ssc__prod
+#  lab-prod-2:
+#    group : lab__prod
 #    vmid  : 2031
 #    cores : 2
 #    mem   : 512
@@ -182,8 +182,8 @@ lab_nodes:
 #    vars  :
 #      - "ansible_user : root"
 #
-#  ssc-prod-3:
-#    group : ssc__prod
+#  lab-prod-3:
+#    group : lab__prod
 #    vmid  : 2032
 #    cores : 2
 #    mem   : 512
@@ -191,8 +191,8 @@ lab_nodes:
 #    vars  :
 #      - "ansible_user : root"
 
-  ssc-control-1:
-    group      : ssc__control
+  lab-control-1:
+    group      : lab__control
     vmid       : 2040
     mac        : '00:1B:C5:01:40:07'
     cores      : 4

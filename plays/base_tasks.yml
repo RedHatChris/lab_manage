@@ -25,6 +25,15 @@
     dest: "{{ etc_hosts_file }}"
 
 
+- name: Deploy .bashrc
+  copy:
+    src  : files/bashrc
+    dest : /root/.bashrc
+  tags:
+    - always
+    - bashrc
+
+
 # Registration really only needs to be run once unless we
 # need to refresh; tagging will help us do just that:
 - name: Red Hat Subscription Registration
